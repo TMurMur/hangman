@@ -45,13 +45,13 @@ HANGMAN_PICS = ['''
    /|\  |
    / \  |
        ===''']
-words = {'colors': 'червоний оранжовий жовтий зелений синій блакитний фіолетовий'
+words = {'Кольори': 'червоний оранжовий жовтий зелений синій блакитний фіолетовий'
     ' білий чорний коричневий'.split(),
-    'figures': 'квадрат трикутник прямокутник круг еліпс ромб трапеція'
+    'Фігури ': 'квадрат трикутник прямокутник круг еліпс ромб трапеція'
     ' паралелограм пятикутник шестикутник восьмикутник'.split(),
-    'fruits': 'яблуко апельсин лимон лайм груша мандарин виноград грейпфрут'
+    'Фрукти ': 'яблуко апельсин лимон лайм груша мандарин виноград грейпфрут'
     ' персик банан абрикос манго малина світі маракуйя нектарин'.split(),
-    'animals': 'лелека акула бабуін баран борсук бобер бик верблюд вовк горобець'
+    'Тварини': 'лелека акула бабуін баран борсук бобер бик верблюд вовк горобець'
     ' ворона видра голуб гусак жаба зебра змія індик кит кобра коза козел койот'
     ' корова кішка кролик криса куриця лама лебідь лев лисиця лосось лось мойва'
     ' пугач ведмідь моллюск міль мураха миша нірка носоріг мавпа овечка їжачок'
@@ -69,7 +69,7 @@ def getRandomWord(wordDict):
     # Second, we randomly select a word from the list of keys in the dictionary:
     word_index = random.randint(0, len(wordDict[word_key])-1)
 
-    return wordDict[word_key][word_index]
+    return wordDict[word_key][word_index], word_key
 
 def displayBoard(missedLetters, correctLetters, secretWord):
     print(HANGMAN_PICS[len(missedLetters)])
@@ -133,11 +133,13 @@ if diff == 'В':
 
 missedLetters = ''
 correctLetters = ''
-secretWord = getRandomWord(words)
+secretWord, secretCat = getRandomWord(words)
 gameIsDone = False
 
 while True:
-    # print('Загадане слово відноситься до категорії: '+ secretSet)
+    print('*******************\n>>> Розпочнемо! <<<\n*******************\n'
+        'Категорія словника:\n*** > '+ secretCat +'< ***\n'
+        '*******************')
     displayBoard(missedLetters, correctLetters, secretWord)
 
     # Allows the player to enter a letter.
@@ -154,7 +156,7 @@ while True:
                 break
 
         if foundAllLetters:
-            print("\nВІРНО!\nЗагадане слово - " + secretWord + "!\nТи відгадав!")
+            print("\nВІРНО!\nЗагадане слово - " + secretWord + "!\nВи відгадали!")
             gameIsDone = True
     else:
         missedLetters = missedLetters + guess
@@ -174,6 +176,6 @@ while True:
             missedLetters = ''
             correctLetters = ''
             gameIsDone = False
-            secretWord = getRandomWord(words)
+            secretWord, secretCat = getRandomWord(words)
         else:
             break
